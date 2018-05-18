@@ -1,28 +1,63 @@
 # Rasck
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rasck`. To experiment with that code, run `bin/console` for an interactive prompt.
+Rails Service Checker is ruby gem that comes with a middleware.
 
-TODO: Delete this and the text above, and describe your gem
+* It provides a /rasck/status endpoint
+* It provides some built_in checks like `redis` and `s3`
+* It provides a way to add your custom checks
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rasck'
+gem 'rasck', github: 'llopez/rasck'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
+## Installation
 
-    $ gem install rasck
+Add this line to your `config/application.rb`, this will insert the middleware
+
+```ruby
+config.middleware.insert_before Rails::Rack::Logger, Rasck::Middleware
+```
+
+## Configure
+
+Copy the below template to `config/initializers/rasck.rb`
+
+```ruby
+Rasck.config do |config|
+  config.path = '/status'
+
+  config.add_check 'service-1' do
+    # custom check code goes here...
+    # the code here should return a boolean value
+  end
+
+  config.add_check 'service-2' do
+    # custom check code goes here...
+    # the code here should return a boolean value
+  end
+end
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Just GET /rasck/status endpoint to get a json object containing the status of your services
+
+```json
+{
+  'redis': true,
+  's3': true,
+  'service-1': true,
+  'service-2': false
+}
+```
 
 ## Development
 
@@ -32,7 +67,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rasck.
+Bug reports and pull requests are welcome on GitHub at https://github.com/llopez/rasck.
 
 ## License
 
