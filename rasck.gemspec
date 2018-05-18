@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "rasck"
   spec.version       = Rasck::VERSION
   spec.authors       = ["Luis Lopez"]
-  spec.email         = ["luis.lopez@altoros.com"]
+  spec.email         = ["luigibyte@gmail.com"]
 
   spec.summary       = %q{Rails Service Checker}
   spec.description   = %q{Rails Service Checker}
