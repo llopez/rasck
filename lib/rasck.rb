@@ -7,6 +7,9 @@ module Rasck
   mattr_accessor :redis_url
   self.redis_url = nil
 
+  mattr_accessor :path
+  self.path = '/rasck/status'
+
   mattr_accessor :built_in_checks
   self.built_in_checks = %w[redis s3]
 

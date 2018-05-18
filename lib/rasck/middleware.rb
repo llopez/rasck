@@ -7,7 +7,7 @@ module Rasck
     def call(env)
       path = env['PATH_INFO']
 
-      if path == '/rasck/status'
+      if path == Rasck.path
         response = Rasck.run_checks.to_json
 
         [200, {}, [response]]
