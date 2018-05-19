@@ -1,6 +1,7 @@
 # Rasck
 
-Rails Service Checker is a ruby gem that comes with a middleware.
+Rails Service Checker is a Ruby library. 
+It could be used as a simple library or you can make use of it through his built-in middleware.
 
 * It provides a /rasck/status endpoint
 * It provides some built_in checks like `redis` and `s3`
@@ -29,16 +30,16 @@ config.middleware.insert_before Rails::Rack::Logger, Rasck::Middleware
 Copy the below template to `config/initializers/rasck.rb`
 
 ```ruby
-Rasck.config do |config|
+Rasck.configure do |config|
   # change the status endpoint
   config.path = '/status'
 
-  config.add_check 'service-1' do
+  config.add_custom_check 'service-1' do
     # custom check code goes here...
     # the code here should return a boolean value
   end
 
-  config.add_check 'service-2' do
+  config.add_custom_check 'service-2' do
     # custom check code goes here...
     # the code here should return a boolean value
   end
