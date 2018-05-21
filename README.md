@@ -32,7 +32,7 @@ Copy the below template to `config/initializers/rasck.rb`
 ```ruby
 Rasck.configure do |config|
   # change the status endpoint
-  config.path = '/status'
+  config.endpoint = '/status'
 
   config.add_custom_check 'service-1' do
     # custom check code goes here...
