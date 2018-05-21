@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/llopez/rasck.svg?branch=master)](https://travis-ci.org/llopez/rasck)
+
 # Rasck
 
 Rails Service Checker is a Ruby library. 
