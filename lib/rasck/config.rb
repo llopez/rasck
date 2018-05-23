@@ -8,7 +8,10 @@ module Rasck
     def initialize
       @endpoint = '/rasck/status'
       @redis_url = nil
-      @built_in_checks = %w[redis s3]
+      @built_in_checks = {
+        'redis' => proc { Rasck::Checks::Redis.check },
+        's3' => proc { Rasck::Checks::S3.check }
+      }
       @custom_checks = {}
     end
 

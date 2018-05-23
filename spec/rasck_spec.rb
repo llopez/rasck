@@ -41,14 +41,15 @@ RSpec.describe Rasck do
           end
         end
       end
-      it 'returns built_in_checks + custom_checks' do
-        expect(Rasck.all_checks).to eq(%w[redis s3 check-1 check-2])
+
+      it 'returns built-in checks + custom checks' do
+        expect(Rasck.all_checks.keys).to eq(%w[redis s3 check-1 check-2])
       end
     end
   end
 
   describe 'run_checks' do
-    context 'When there are custom checks' do
+    context 'When there are new custom checks' do
       before do
         Rasck.config = nil
         Rasck.configure do |c|
@@ -61,46 +62,38 @@ RSpec.describe Rasck do
         end
       end
 
-      context 'And S3 and Redis are not defined' do
-        it 'returns custom checks results' do
-          expect(Rasck.run_checks).to eq(
-            'check-1' => true,
-            'check-2' => true
-          )
+      it 'returns custom checks results' do
+        expect(Rasck.run_checks).to eq(
+          'check-1' => true,
+          'check-2' => true,
+          'redis' => false,
+          's3' => false
+        )
+      end
+    end
+
+    context 'When custom checks overrides built-in checks' do
+      before do
+        Rasck.config = nil
+        Rasck.configure do |c|
+          c.add_custom_check 'check-1' do
+            true
+          end
+          c.add_custom_check 'redis' do
+            'redis-override'
+          end
+          c.add_custom_check 's3' do
+            's3-override'
+          end
         end
       end
 
-      context 'And Redis is defined' do
-        before do
-          conn = double(:conn, ping: 'PONG')
-          stub_const('Redis', Class.new)
-          allow(Redis).to receive(:new).and_return(conn)
-        end
-
-        it 'includes redis check' do
-          expect(Rasck.run_checks).to eq(
-            'redis' => true,
-            'check-1' => true,
-            'check-2' => true
-          )
-        end
-      end
-
-      context 'And Aws is defined' do
-        before do
-          res = double(:res, successful?: true)
-          s3 = double(:s3, list_buckets: res)
-          stub_const('Aws::S3::Client', Class.new)
-          allow(Aws::S3::Client).to receive(:new).and_return(s3)
-        end
-
-        it 'includes s3 check' do
-          expect(Rasck.run_checks).to eq(
-            's3' => true,
-            'check-1' => true,
-            'check-2' => true
-          )
-        end
+      it 'returns custom checks results' do
+        expect(Rasck.run_checks).to eq(
+          'check-1' => true,
+          'redis' => 'redis-override',
+          's3' => 's3-override'
+        )
       end
     end
   end
