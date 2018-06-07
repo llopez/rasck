@@ -2,6 +2,7 @@ module Rasck
   class Config
     attr_accessor :endpoint
     attr_accessor :redis_url
+    attr_accessor :auth_token
     attr_accessor :built_in_checks
     attr_accessor :custom_checks
 

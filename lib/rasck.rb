@@ -3,6 +3,7 @@ require 'rasck/checks/redis'
 require 'rasck/checks/s3'
 require 'rasck/middleware'
 require 'rasck/config'
+require 'rasck/auth'
 
 module Rasck
   class << self

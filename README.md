@@ -33,6 +33,10 @@ Copy the below template to `config/initializers/rasck.rb`
 
 ```ruby
 Rasck.configure do |config|
+  # add security
+  # uncomment next line to enable token authentication
+  # config.auth_token = 'TOKEN'
+
   # change the status endpoint
   config.endpoint = '/status'
 

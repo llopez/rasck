@@ -26,6 +26,13 @@ RSpec.describe Rasck do
       end
       expect(Rasck.config.custom_checks).to include('check')
     end
+
+    it 'stores auth_token' do
+      Rasck.configure do |c|
+        c.auth_token = 'TOKEN'
+      end
+      expect(Rasck.config.auth_token).to eq('TOKEN')
+    end
   end
 
   describe 'all_checks' do

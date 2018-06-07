@@ -8,11 +8,13 @@ module Rasck
 
     def call(env)
       path = env['PATH_INFO']
-
       if path == Rasck.config.endpoint
-        response = Rasck.run_checks.to_json
-
-        [200, { 'Content-Type' => 'application/json' }, [response]]
+        if Rasck::Auth.authorized?(env)
+          response = Rasck.run_checks.to_json
+          [200, { 'Content-Type' => 'application/json' }, [response]]
+        else
+          [401, { 'Content-Type' => 'application/json' }, []]
+        end
       else
         @app.call(env)
       end
